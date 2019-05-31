@@ -1,0 +1,18 @@
+<h1>글쓰기 페이지</h1>
+<form action="{%url 'create'%}" method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+    <p>글제목</p>
+    <input type="text" name="title">
+    <p>글내용</p>
+    <textarea name="content" cols="30" rows="10"></textarea>
+    <p>카테고리</p>
+    <select name="category">
+        <option value="공지">공지</option>
+        <option value="질문">질문</option>
+        <option value="자유">자유</option>
+    </select>
+    <br>
+    <input type="file" name="pic">
+    <input type="submit" value="글쓰기">
+    
+</form>

@@ -1,0 +1,10 @@
+카테고리
+{%for p in posts%}
+    <p>글 번호 : {{p.id}}</p>
+    <p>카테고리 : {{p.category}}</p>
+    <a href ="{%url 'read' p.id%}">글 제목 : {{p.title}}</a>
+    <p>글 내용 : {{p.content|truncatewords:10}}</p>
+    <p>글 작성 시간 : {{p.created_at}}</p>
+    <p>글 수정 시간 : {{p.updated_at}}</p>
+    <hr>
+{%endfor%}

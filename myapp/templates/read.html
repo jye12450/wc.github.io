@@ -1,0 +1,13 @@
+<p>글 제목 : {{post.title}}</p>
+<p>글 내용</p>
+{{post.content|linebreaksbr}}
+<br>
+{%if post.pic%}
+<img src="{{post.pic.url}}"> 
+{%endif%}
+<a href="/">돌아가기</a><br>
+{% if request.user == post.user or request.user.is_staff %}
+<a href="{%url 'update' post.id %}">수정하기</a><br>
+<a href="{%url 'delete' post.id %}">삭제하기</a><br>
+
+{%endif%}

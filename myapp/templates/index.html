@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load staticfiles %}
+<body> 
+    <div class="c" align="right" role="banner" >
+        {% if user.is_authenticated %}
+        {{user.profile.nickname}}님 환영합니다.
+        
+        <form action="{%url 'logout'%}" method="post">
+            {%csrf_token%}
+            <input type="submit" value="로그아웃">
+        </form><br>
+        <a href="{%url 'create'%}"><button type="button" class="btn btn-info"><p class="font-weight-bold">글쓰기</p></button></a>
+        {% else %}
+        <p>로그인 해주세요</p>
+        <a href="{%url 'signup'%}">회원가입</a>
+        <a href="{%url 'login'%}">로그인</a>
+        {% endif%}
+        
+        <form action="{%url 'search'%}" class="c">
+            <select name="search_filter">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+                <option value='all'>제목+내용</option>
+            </select>
+            <input type="text" name= "search">
+            <input type="submit" name = "검색">
+        </form>
+        <form action="{%url 'category'%}">
+            <i class="fas fa-file-word"></i>
+            <select name="category">
+                <option value="공지">공지</option>
+                <option value="질문">질문</option>
+                <option value="자유">자유</option>
+            </select>
+            <input class="c" type="submit" value="분류">
+        </form>
+    </div>
+    <div style="background-color: steelblue;">
+        
+        <br>
+        <br>
+        {%for p in posts%}
+        <p>글 번호 : {{p.id}}</p>
+        <p>카테고리 : {{p.category}}</p>
+        <a href ="{%url 'read' p.id%}">글 제목 : {{p.title}}</a>
+        <p>글 내용 : {{p.content|truncatewords:10}}</p>
+        <p>글 작성 시간 : {{p.created_at}}</p>
+        <p>글 수정 시간 : {{p.updated_at}}</p>
+        <hr>
+        {%endfor%}  
+        <!-- Content here -->
+    </div>
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Stylish');
+    body{
+        font-family: 'Stylish',cursive;
+        background-color : darkgrey;
+    }
+    form.c{
+        padding-top:1cm;
+        margin-right: 1cm;
+        
+    }
+    i{
+        font-size:60px;
+        margin-right: 2.7cm;
+    }
+    input.c{
+        margin-right: 1cm;
+    }
+</style>
+
+<nav>
+    <ul class="pagination">  
+        {% if posts.has_previous %}
+        <li class="page-item "><a class="page-link" href="?page={{ posts.previous_page_number }}">&lt;</a></li>
+        {% endif %} 
+        {% if posts.number > 2 %}
+        <li class="page-item"><a class="page-link" href="?page=1">&lt;&lt;</a></li>
+        {%endif%}
+        {% if posts.has_next %}
+        <li class="page-item ml-auto"><a class="page-link" href="?page={{ posts.next_page_number }}">&gt;</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}
